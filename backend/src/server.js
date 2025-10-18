@@ -30,17 +30,16 @@ app.use(ratelimiter);
 
 app.use("/api/notes",notesRoutes);
 
-if(process.env.NODE_ENV=="production"){
- app.use(express.static(path.join(__dirname,"../frontend/dist")))
+if (process.env.NODE_ENV === "production") {
+  // Serve frontend build
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-app.get("*",(req,res)=>{
-  res.sendFile(path.join(__dirname,"../frontend","dist","index.html"));
-
-
-
-
-});
+  // Catch-all to serve index.html for React routing
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  });
 }
+
 
 
 connectDB().then(()=>{
