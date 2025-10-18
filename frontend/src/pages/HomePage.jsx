@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import RateLimitedUI from "../components/RateLimitedUI";
 import axios from "axios";
