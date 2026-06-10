@@ -4,6 +4,13 @@ The **AI-Habit Builder** is a modern, full-stack application designed to help us
 
 The application is structured as a monolithic repository, with separate **frontend** and **backend** directories for easy development and deployment.
 
+<img width="952" height="470" alt="image" src="https://github.com/user-attachments/assets/e0bcfa97-172b-4cf0-ad4d-38e540f00ec8" />
+<img width="953" height="470" alt="image" src="https://github.com/user-attachments/assets/7d83366d-5899-4424-afe5-846ea6cbd7ee" />
+<img width="950" height="471" alt="image" src="https://github.com/user-attachments/assets/bd69a1e4-9798-4a07-add1-34c4fc52f897" />
+
+
+
+
 ---
 
 ## ✨ Features
