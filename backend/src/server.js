@@ -2,11 +2,11 @@ import express from "express";
 import notesRoutes from "./Routes/notesRoutes.js";
 import cors from "cors";
 import path from "path";
-
+import authRoutes from "./Routes/authRoutes.js";
 
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv"
-import ratelimiter from "./middleware/rateLimiter.js";
+// import ratelimiter from "./middleware/rateLimiter.js";
 const app=express();
 dotenv.config();
 
@@ -23,9 +23,9 @@ app.use(cors(  {
 }
 
 app.use(express.json());
-app.use(ratelimiter);
+// app.use(ratelimiter);
 
-
+app.use("/api/auth", authRoutes);
 
 
 app.use("/api/notes",notesRoutes);

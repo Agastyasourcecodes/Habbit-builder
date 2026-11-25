@@ -3,7 +3,8 @@ import Homepage from "./pages/HomePage"
 import CreatePage from "./pages/CreatePage"
 import NoteDetailPage from "./pages/NoteDetailPage"
 import toast from "react-hot-toast";
-
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 const App = () => {
   return (
    <div className="relative h-full w-full">
@@ -16,6 +17,8 @@ const App = () => {
         <Route path="/" element={<Homepage/>}   />
         <Route path="/create" element={<CreatePage/>}   />
         <Route path="/note/:id" element={<NoteDetailPage/>}   />
+        <Route path="/login" element={<LoginPage />} />
+<Route path="/register" element={<RegisterPage />} />
 
 
 
