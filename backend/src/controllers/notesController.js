@@ -1,88 +1,63 @@
 import Note from "../models/Note.js";
 
-export async function getAllNotes(req,res) {
-    try{
-        const notes=await Note.find().sort({createdAt: -1});
-    res.status(200).json({
-  message: "You fetched notes",
-  data: notes
-});
+export const getAllNotes = async (req, res) => {
+  try {
+    const notes = await Note.find({ user: req.user._id }).sort({ createdAt: -1 });
+    res.status(200).json(notes);
+  } catch (error) {
+    console.error("Error in getAllNotes:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
-}
-    catch(error){
-        console.log("Error in fetching notes",error);
-        res.status(500).json({message:"Internal server error"});
-    }
+export const getNoteById = async (req, res) => {
+  try {
+    const note = await Note.findOne({ _id: req.params.id, user: req.user._id });
+    if (!note) return res.status(404).json({ message: "Note not found" });
+    res.status(200).json(note);
+  } catch (error) {
+    console.error("Error in getNoteById:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
-
-}
-
-export async function getNoteById(req,res){
-    try {
-        const note=await Note.findById(req.params.id);
-        if(!note) return res.status(404).json({message:"Notes not found!"});
-        res.json(note);
-        
-    } catch (error) {
-        console.log("Error in fetching notes",error);
-        res.status(500).json({message:"Internal server error"});
-
-        
-    }
-}
-
-
-export async function createAllNotes(req,res){
-
-    try{
-        const{title,content}=req.body;
-
-        if (!title||!content){
-            return res.status(400).json({ message: "Title and content are required" });
-        }
-        const newNote=new Note({title,content});
-
-        const savedNote=await newNote.save();
-        res.status(201).json(savedNote);
-
-
-    }
-    catch(error){
-        console.error("Error in createnote controller",error);
-        res.status(500).json({message:"Internal server error"});
-
-    }
-   
-
-}
-
-export async function UpdateAllNotes(req, res) {
+export const createAllNotes = async (req, res) => {
   try {
     const { title, content } = req.body;
-    const updatedNote = await Note.findByIdAndUpdate(
-      req.params.id,
+    const note = await Note.create({ title, content, user: req.user._id });
+    res.status(201).json(note);
+  } catch (error) {
+    console.error("Error in createAllNotes:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const UpdateAllNotes = async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    const note = await Note.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
       { title, content },
       { new: true }
     );
-
-    if (!updatedNote)
-      return res.status(404).json({ message: "Note not found" });
-
-    res.status(200).json({ message: "Note updated successfully", updatedNote });
+    if (!note) return res.status(404).json({ message: "Note not found" });
+    res.status(200).json(note);
   } catch (error) {
-    console.error("Error in UpdateAllNotes:", error);
+    console.error("Error in UpdateAllNotes:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-export async function DeleteAllNotes(req, res) {
+export const DeleteAllNotes = async (req, res) => {
   try {
-    const deletedNote = await Note.findByIdAndDelete(req.params.id);
-    if (!deletedNote)
-      return res.status(404).json({ message: "Note not found" });
+    const note = await Note.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+    if (!note) return res.status(404).json({ message: "Note not found" });
     res.status(200).json({ message: "Note deleted successfully" });
   } catch (error) {
-    console.error("Error in deleteNote controller:", error);
+    console.error("Error in DeleteAllNotes:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
